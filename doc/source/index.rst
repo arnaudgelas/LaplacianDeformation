@@ -3,10 +3,20 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Laplacian Mesh Deformation's documentation!
-======================================================
+==========================
+Laplacian Mesh Deformation
+==========================
 
-Contents:
+Deforming a 3D surface mesh while preserving its local detail is useful for
+editing anatomical atlases or for mesh based segmentation. This contribution
+introduces new classes for performing *hard* and *soft constraints* deformation
+in a flexible design which allows user to switch easily in between Laplacian
+discretization operators, area weighing and solvers. The usage of these new
+classes is demonstrated on a sphere.
+
+
+Contents
+========
 
 .. toctree::
    :maxdepth: 2
