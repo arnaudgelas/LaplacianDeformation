@@ -2,7 +2,7 @@
 #include "itkVTKPolyDataReader.h"
 #include "itkVTKPolyDataWriter.h"
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"
-#include "itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints.h"
+#include "itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraints.h"
 #include "VNLSparseLUSolverTraits.h"
 
 int main( int argc, char* argv[] )
@@ -17,12 +17,10 @@ int main( int argc, char* argv[] )
   reader->Update();
 
   typedef VNLSparseLUSolverTraits< CoordType > SolverType;
-  typedef itk::LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints< MeshType, MeshType, SolverType > FilterType;
-//  typedef itk::LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints< MeshType, MeshType, SolverType > FilterType;
+  typedef itk::LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints< MeshType, MeshType, SolverType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
-  filter->SetOrder( 1 );
-  filter->SetLambda( 1. );
+  filter->SetOrder( 2 );
 
   typedef itk::ConformalMatrixCoefficients< MeshType > CoefficientType;
   CoefficientType coeff;
@@ -39,20 +37,15 @@ int main( int argc, char* argv[] )
   filter->SetDisplacement( 226, null );
 
   MeshType::VectorType d( null );
-  d[2] = -5;
+  d[2] = -0.1;
 
-  filter->SetDisplacement( 2030, d );
-  filter->SetDisplacement( 1870, d );
-  filter->SetDisplacement( 2012, d );
+  filter->SetDisplacement( 3912, d );
+  filter->SetDisplacement( 729, d );
+  filter->SetDisplacement( 938, d );
 
-  d[1] = 1;
-  filter->SetDisplacement( 1076, d );
-
-  d[1] = -1;
-  filter->SetDisplacement( 1077, d );
-
-  d[1] = 0.;
-  filter->SetDisplacement( 1062, d );
+  d[1] = 0.1;
+  filter->SetDisplacement( 40, d );
+  filter->SetDisplacement( 371, d );
 
   filter->Update();
 

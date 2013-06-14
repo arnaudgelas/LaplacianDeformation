@@ -46,29 +46,11 @@ Then set the constraints, either by the means of *SetDisplacement*, either by th
 
   MeshType::VectorType null( 0. );
   filter->SetDisplacement( 150, null );
-  filter->SetDisplacement( 2027, null );
-  filter->SetDisplacement( 292, null );
-  filter->SetDisplacement( 185, null );
-  filter->SetDisplacement( 180, null );
-  filter->SetDisplacement( 153, null );
-  filter->SetDisplacement( 183, null );
-  filter->SetDisplacement( 226, null );
 
   MeshType::VectorType d( null );
   d[2] = -5;
 
   filter->SetDisplacement( 2030, d );
-  filter->SetDisplacement( 1870, d );
-  filter->SetDisplacement( 2012, d );
-
-  d[1] = 1;
-  filter->SetDisplacement( 1076, d );
-
-  d[1] = -1;
-  filter->SetDisplacement( 1077, d );
-
-  d[1] = 0.;
-  filter->SetDisplacement( 1062, d );
 
 Finally call the *Update* method and get the output mesh
 
@@ -124,29 +106,11 @@ Then set the constraints, either by the means of *SetDisplacement*, either by th
 
   MeshType::VectorType null( 0. );
   filter->SetDisplacement( 150, null );
-  filter->SetDisplacement( 2027, null );
-  filter->SetDisplacement( 292, null );
-  filter->SetDisplacement( 185, null );
-  filter->SetDisplacement( 180, null );
-  filter->SetDisplacement( 153, null );
-  filter->SetDisplacement( 183, null );
-  filter->SetDisplacement( 226, null );
 
   MeshType::VectorType d( null );
   d[2] = -5;
 
   filter->SetDisplacement( 2030, d );
-  filter->SetDisplacement( 1870, d );
-  filter->SetDisplacement( 2012, d );
-
-  d[1] = 1;
-  filter->SetDisplacement( 1076, d );
-
-  d[1] = -1;
-  filter->SetDisplacement( 1077, d );
-
-  d[1] = 0.;
-  filter->SetDisplacement( 1062, d );
 
 Finally call the *Update* method and get the output mesh
 

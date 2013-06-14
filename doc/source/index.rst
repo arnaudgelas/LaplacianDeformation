@@ -24,6 +24,7 @@ Contents
   Introduction.rst
   Background.rst
   Implementation.rst
+  Demonstration.rst
 
 Indices and tables
 ==================
