@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Background &mdash; Laplacian Mesh Deformation 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Laplacian Mesh Deformation 1.0 documentation" href="index.html" />
+    <link rel="next" title="Classes" href="Implementation.html" />
+    <link rel="prev" title="Introduction" href="Introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Implementation.html" title="Classes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Introduction.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Laplacian Mesh Deformation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="background">
+<h1>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h1>
+<p>Laplacian-based approaches represent the surface by the so-called differential
+coordinates or Laplacian coordinates [3], [59]. These coordinates are obtained
+by applying the Laplacian operator to the mesh vertices:</p>
+<div class="math">
+<p><img src="_images/math/a78ac15f453916e811f8f0538d48725ee6e128bd.png" alt="\boldsymbol{ \delta }_i = \Delta_{S}( \boldsymbol{ p }_i ) = - H_i \cdot \boldsymbol{ n_i }"/></p>
+</div><p>where <img class="math" src="_images/math/f6b8031f33441a44e13d20863b7af434336499e6.png" alt="H_i"/> is the mean curvature ( <img class="math" src="_images/math/13f11e7c1cc373efffbd77351f909e6350d8a923.png" alt="\kappa_1 + \kappa_2"/> ) at the
+vertex <img class="math" src="_images/math/85ffd98b4eaea58a8db38fd0047e3a1d7c5661a0.png" alt="v_i"/>.</p>
+<p>The deformation can be formulated by minimizing the difference from the input
+surface coordinates <img class="math" src="_images/math/4e15a2cce3ae978937c61eacc38adf314b009ef8.png" alt="\delta_i"/>. With a continuous formulation, this would
+lead to the minimization of the following energy:</p>
+<div class="math">
+<p><img src="_images/math/acbd6a758a0291853ae0cb4336d0b4fefe528375.png" alt="\min_{\boldsymbol{p'}} \int_{\Omega} \| \boldsymbol{\Delta p'} - \boldsymbol{\delta} \| du dv"/></p>
+</div><p>The Euler-Lagrange equation derived:</p>
+<div class="math">
+<p><img src="_images/math/c4b82311c421089acca38247d54d3dfbd700716c.png" alt="\Delta^2 \boldsymbol{p'} = \Delta \boldsymbol{\delta}"/></p>
+</div><p>When considering the input surface as the parameter domain, the Laplace
+operator turns out into the Laplace-Beltrami operator <img class="math" src="_images/math/b0732fc9c9b1674f9a8673fbf7563fdc3a369c79.png" alt="\Delta_S"/>:</p>
+<div class="math">
+<p><img src="_images/math/ca7756e6d94b0fba47e3ccafbdc097dc95b01f53.png" alt="L^2 \boldsymbol{p'} = L \boldsymbol{ \delta }"/></p>
+</div><p>which can be separated into 3 coordinate components. Then users can add
+positional constraints on some vertices:</p>
+<div class="math">
+<p><img src="_images/math/b6fa0cbd07543f50b9b224c5f11d6b25daf96500.png" alt="\boldsymbol{p'}_j = \boldsymbol{c}_j"/></p>
+</div><p>Note that the positional constraints can either be incorporated as <em>hard</em> or
+<em>soft constraints</em>.</p>
+<div class="section" id="adding-constraints">
+<h2>Adding constraints<a class="headerlink" href="#adding-constraints" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hard-constraints-formulation">
+<h3>Hard constraints formulation<a class="headerlink" href="#hard-constraints-formulation" title="Permalink to this headline">¶</a></h3>
+<p>The problem can thus be expressed as follows:</p>
+<div class="math">
+<p><img src="_images/math/d3c301f76a240827d55ea0166156b9a0b51a4008.png" alt="L^2 \boldsymbol{p'} &amp; =  L \boldsymbol{ \delta } \\
+\boldsymbol{p'}_j   &amp; =  \boldsymbol{c}_j"/></p>
+</div><p>where <img class="math" src="_images/math/544f5b114e9b6433bd68d9d62ddea6b85bee03f6.png" alt="\boldsymbol{c}_j"/> are the positional constraints, or by
+constraining the displacement <img class="math" src="_images/math/e58402eb5633115a084e0b5bd61b919a7470bfec.png" alt="\boldsymbol{d}_i = \boldsymbol{c}_i -
+\boldsymbol{p}_i"/>.</p>
+<p>which can be rewritten as:</p>
+<div class="math">
+<p><img src="_images/math/fe055d3395520ba36af95a011006fef37bbd6ea5.png" alt="\left(
+  \begin{matrix}
+    L^2 \\
+    0 &amp; I_k
+  \end{matrix}
+\right) \cdot
+\left(
+  \begin{matrix}
+    \boldsymbol{d}_1 \\
+    \vdots \\
+    \boldsymbol{d}_n
+  \end{matrix}
+\right)
+=
+\left(
+  \begin{matrix}
+    \boldsymbol{0} \\
+    \vdots \\
+    \boldsymbol{0} \\
+    \boldsymbol{c}_{n'+1} - \boldsymbol{p}_{n'+1} \\
+    \vdots \\
+    \boldsymbol{c}_{n} - \boldsymbol{p}_{n}
+  \end{matrix}
+\right)"/></p>
+</div><p>where <img class="math" src="_images/math/e44725498d58011ae897b3f2e7e92424828c199e.png" alt="L^2 \in \mathbb{R}^{n \times n}"/> and <img class="math" src="_images/math/8ea972a3547d6e5b8c88bc77e0110bf571d75898.png" alt="I_k"/> is the <img class="math" src="_images/math/4924c2823479beb89bc8dfac9b325ca143494e8f.png" alt="k
+\times k"/> identity matrix. By eliminating rows in the above linear system, we
+finally get a <img class="math" src="_images/math/3eeeb812f135624c21ace546d6894ae3c8577c86.png" alt="n' \times n'"/> sparse linear system where the unknown
+vector represents the 3D deformation of the <img class="math" src="_images/math/c6bed33114d0579936e00565024dad5a983cbac1.png" alt="n'"/> unconstrained vertices.</p>
+</div>
+<div class="section" id="soft-constraints-formulation">
+<h3>Soft constraints formulation<a class="headerlink" href="#soft-constraints-formulation" title="Permalink to this headline">¶</a></h3>
+<p>In contrast soft constraints correspond to relax the previous constraint by
+incorporating the constraints into the enyergy minimization leading to</p>
+<div class="math">
+<p><img src="_images/math/1ee928dfa8bfbf5ee879115dbdac84ff8180af49.png" alt="\min_{\boldsymbol{p'}} \sum_{i=1}^{N} \| \Delta_S( \boldsymbol{p'}_i - \boldsymbol{\delta}_i \|^2 + \lambda \sum_{j=n'+1}^{n} \| \boldsymbol{p'}_j - \boldsymbol{c}_j \|^2"/></p>
+</div><p>The minimum of this energy is can be found by solving the normal equations:</p>
+<div class="math">
+<p><img src="_images/math/293425fe5226579c09a468b64e41199b565dc6d4.png" alt="\left[
+  L^t \cdot L + \lambda^2 \cdot
+  \left(
+    \begin{matrix}
+      0 &amp; 0 \\
+      0 &amp; I_k
+    \end{matrix}
+  \right)
+\right]
+\cdot
+\left(
+  \begin{matrix}
+    \boldsymbol{p}_1 \\
+    \vdots \\
+    \boldsymbol{p}_n
+  \end{matrix}
+\right)
+=
+L^t \cdot
+\left(
+  \begin{matrix}
+    \boldsymbol{\delta'}_0 \\
+    \vdots \\
+    \boldsymbol{\delta'}_n
+  \end{matrix}
+\right)
++ \lambda^2 \cdot
+\left(
+  \begin{matrix}
+    \boldsymbol{0} \\
+    \vdots \\
+    \boldsymbol{0} \\
+    \boldsymbol{c}_{n'+1} \\
+    \vdots \\
+    \boldsymbol{c}_n
+  \end{matrix}
+\right)"/></p>
+</div><p>Depending on <img class="math" src="_images/math/ce4588fd900d02afcbd260bc07f54cce49a7dc4a.png" alt="\lambda"/> solution can be closed to an interpolation of the
+constraints (with large values), or an approximation of them (with low values).</p>
+</div>
+</div>
+<div class="section" id="laplacian-discretization">
+<h2>Laplacian discretization<a class="headerlink" href="#laplacian-discretization" title="Permalink to this headline">¶</a></h2>
+<p>This approach requires a dicretization of the Laplacian operator, and results
+would highly depends on it. There exists several variations of the weights used
+in the typically used Laplacian discretization. Here we list few of them:</p>
+<ul class="simple">
+<li>The uniform weight: <img class="math" src="_images/math/d2d4b7f3522a7218175243d609d95d77da47df92.png" alt="w_i = 1"/> and <img class="math" src="_images/math/fbb16a50adb6c3f7ff09690bbf0de09dc3c6503a.png" alt="w_{ij} = 1 / N"/>;</li>
+<li><img class="math" src="_images/math/e3549ffdfaa9d911a26094956810ea1810262fd8.png" alt="w_{i} = 1"/> and <img class="math" src="_images/math/2cc434185e047295069fb6c3e2faf9740cecfe60.png" alt="w_{ij} = \frac{1}{2} ( \cot \alpha_{ij} + \cot \beta_{ij} )"/>;</li>
+<li><img class="math" src="_images/math/51c20b77f1b374d1062454b66f3325cd584fe9eb.png" alt="w_{i} = 1 / A_i"/> and <img class="math" src="_images/math/2cc434185e047295069fb6c3e2faf9740cecfe60.png" alt="w_{ij} = \frac{1}{2} ( \cot \alpha_{ij} + \cot \beta_{ij} )"/> (where <img class="math" src="_images/math/2744600189f7f1df31756f2022b2d5212ef1c767.png" alt="A_i"/> is a local area corresponding for <img class="math" src="_images/math/d2f37f9b6864918a2de30a06518f5eb5a0565904.png" alt="\boldsymbol{v}_i"/>)</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Background</a><ul>
+<li><a class="reference internal" href="#adding-constraints">Adding constraints</a><ul>
+<li><a class="reference internal" href="#hard-constraints-formulation">Hard constraints formulation</a></li>
+<li><a class="reference internal" href="#soft-constraints-formulation">Soft constraints formulation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#laplacian-discretization">Laplacian discretization</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Introduction.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Implementation.html"
+                        title="next chapter">Classes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Background.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Implementation.html" title="Classes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Introduction.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="index.html">Laplacian Mesh Deformation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Arnaud Gelas.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

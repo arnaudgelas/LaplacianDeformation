@@ -1,0 +1,214 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Classes &mdash; Laplacian Mesh Deformation 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Laplacian Mesh Deformation 1.0 documentation" href="index.html" />
+    <link rel="next" title="Example" href="Demonstration.html" />
+    <link rel="prev" title="Background" href="Background.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Demonstration.html" title="Example"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Background.html" title="Background"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Laplacian Mesh Deformation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="classes">
+<h1>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h1>
+<p>There are 2 cases inheriting from a single base class (which is not meant to be
+instantiated).</p>
+<div class="section" id="hard-constraints">
+<h2>Hard Constraints<a class="headerlink" href="#hard-constraints" title="Permalink to this headline">¶</a></h2>
+<p>For hard constraints, one should first choose the type of sparse solver to be
+used. For performance purpose we strongly advise to use
+<em>VNLSparseLUSolverTraits</em>, but it is possible to use a custom one with external
+libraries not delivered in ITK (such as TAUCS, CHOLMOD, etc.).</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">typedef</span> <span class="n">VNLSparseLUSolverTraits</span><span class="o">&lt;</span> <span class="n">CoordType</span> <span class="o">&gt;</span> <span class="n">SolverType</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">itk</span><span class="o">::</span><span class="n">LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints</span><span class="o">&lt;</span> <span class="n">MeshType</span><span class="p">,</span> <span class="n">MeshType</span><span class="p">,</span> <span class="n">SolverType</span> <span class="o">&gt;</span> <span class="n">FilterType</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The next step is then to allocate the filter and set the input mesh.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">FilterType</span><span class="o">::</span><span class="n">Pointer</span> <span class="n">filter</span> <span class="o">=</span> <span class="n">FilterType</span><span class="o">::</span><span class="n">New</span><span class="p">();</span>
+<span class="n">filter</span><span class="o">-&gt;</span><span class="n">SetInput</span><span class="p">(</span> <span class="n">reader</span><span class="o">-&gt;</span><span class="n">GetOutput</span><span class="p">()</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Then set the order (note that <strong>we recommend using order 2</strong>, but it is possible to use higher-orders).</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">filter</span><span class="o">-&gt;</span><span class="n">SetOrder</span><span class="p">(</span> <span class="mi">2</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Then set the method to compute the coefficient. Although theoretically it is
+recommended to use <em>itk::ConformalMatrixCoefficients</em>, it is possible to use
+other weights to speed up the deformation, or for other reasons...</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">typedef</span> <span class="n">itk</span><span class="o">::</span><span class="n">ConformalMatrixCoefficients</span><span class="o">&lt;</span> <span class="n">MeshType</span> <span class="o">&gt;</span> <span class="n">CoefficientType</span><span class="p">;</span>
+<span class="n">CoefficientType</span> <span class="n">coeff</span><span class="p">;</span>
+<span class="n">filter</span><span class="o">-&gt;</span><span class="n">SetCoefficientsMethod</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">coeff</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Then set the constraints, either by the means of <em>SetDisplacement</em>, either by the means of <em>SetConstrainedNode</em></p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">MeshType</span><span class="o">::</span><span class="n">VectorType</span> <span class="n">null</span><span class="p">(</span> <span class="mf">0.</span> <span class="p">);</span>
+<span class="n">filter</span><span class="o">-&gt;</span><span class="n">SetDisplacement</span><span class="p">(</span> <span class="mi">150</span><span class="p">,</span> <span class="n">null</span> <span class="p">);</span>
+
+<span class="n">MeshType</span><span class="o">::</span><span class="n">VectorType</span> <span class="n">d</span><span class="p">(</span> <span class="n">null</span> <span class="p">);</span>
+<span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">;</span>
+
+<span class="n">filter</span><span class="o">-&gt;</span><span class="n">SetDisplacement</span><span class="p">(</span> <span class="mi">2030</span><span class="p">,</span> <span class="n">d</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Finally call the <em>Update</em> method and get the output mesh</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">filter</span><span class="o">-&gt;</span><span class="n">Update</span><span class="p">();</span>
+
+<span class="n">MeshType</span><span class="o">::</span><span class="n">Pointer</span> <span class="n">output</span> <span class="o">=</span> <span class="n">filter</span><span class="o">-&gt;</span><span class="n">GetOutput</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="soft-constraints">
+<h2>Soft Constraints<a class="headerlink" href="#soft-constraints" title="Permalink to this headline">¶</a></h2>
+<p>As above (for hard constraints), one should first choose the type of sparse
+solver to be used. For performance purpose we strongly advise to use
+<em>VNLSparseLUSolverTraits</em>, but it is possible to use a custom one with external
+libraries not delivered in ITK (such as TAUCS, CHOLMOD, etc.).</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">typedef</span> <span class="n">VNLSparseLUSolverTraits</span><span class="o">&lt;</span> <span class="n">CoordType</span> <span class="o">&gt;</span> <span class="n">SolverType</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">itk</span><span class="o">::</span><span class="n">LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints</span><span class="o">&lt;</span> <span class="n">MeshType</span><span class="p">,</span> <span class="n">MeshType</span><span class="p">,</span> <span class="n">SolverType</span> <span class="o">&gt;</span> <span class="n">FilterType</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The next step is then to allocate the filter and set the input mesh.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">FilterType</span><span class="o">::</span><span class="n">Pointer</span> <span class="n">filter</span> <span class="o">=</span> <span class="n">FilterType</span><span class="o">::</span><span class="n">New</span><span class="p">();</span>
+<span class="n">filter</span><span class="o">-&gt;</span><span class="n">SetInput</span><span class="p">(</span> <span class="n">reader</span><span class="o">-&gt;</span><span class="n">GetOutput</span><span class="p">()</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Then set the order (note that <strong>we recommend using order 1</strong>, but it is
+possible to use higher-orders), and the lambda value which balance in between
+interpolation and approximation.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">filter</span><span class="o">-&gt;</span><span class="n">SetOrder</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+<span class="n">filter</span><span class="o">-&gt;</span><span class="n">SetLambda</span><span class="p">(</span> <span class="mf">1.</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Then set the method to compute the coefficient. Although theoretically it is
+recommended to use <em>itk::ConformalMatrixCoefficients</em>, it is possible to use
+other weights to speed up the deformation, or for other reasons...</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">typedef</span> <span class="n">itk</span><span class="o">::</span><span class="n">ConformalMatrixCoefficients</span><span class="o">&lt;</span> <span class="n">MeshType</span> <span class="o">&gt;</span> <span class="n">CoefficientType</span><span class="p">;</span>
+<span class="n">CoefficientType</span> <span class="n">coeff</span><span class="p">;</span>
+<span class="n">filter</span><span class="o">-&gt;</span><span class="n">SetCoefficientsMethod</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">coeff</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Then set the constraints, either by the means of <em>SetDisplacement</em>, either by the means of <em>SetConstrainedNode</em></p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">MeshType</span><span class="o">::</span><span class="n">VectorType</span> <span class="n">null</span><span class="p">(</span> <span class="mf">0.</span> <span class="p">);</span>
+<span class="n">filter</span><span class="o">-&gt;</span><span class="n">SetDisplacement</span><span class="p">(</span> <span class="mi">150</span><span class="p">,</span> <span class="n">null</span> <span class="p">);</span>
+
+<span class="n">MeshType</span><span class="o">::</span><span class="n">VectorType</span> <span class="n">d</span><span class="p">(</span> <span class="n">null</span> <span class="p">);</span>
+<span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">;</span>
+
+<span class="n">filter</span><span class="o">-&gt;</span><span class="n">SetDisplacement</span><span class="p">(</span> <span class="mi">2030</span><span class="p">,</span> <span class="n">d</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Finally call the <em>Update</em> method and get the output mesh</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">filter</span><span class="o">-&gt;</span><span class="n">Update</span><span class="p">();</span>
+
+<span class="n">MeshType</span><span class="o">::</span><span class="n">Pointer</span> <span class="n">output</span> <span class="o">=</span> <span class="n">filter</span><span class="o">-&gt;</span><span class="n">GetOutput</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Classes</a><ul>
+<li><a class="reference internal" href="#hard-constraints">Hard Constraints</a></li>
+<li><a class="reference internal" href="#soft-constraints">Soft Constraints</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Background.html"
+                        title="previous chapter">Background</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Demonstration.html"
+                        title="next chapter">Example</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Implementation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Demonstration.html" title="Example"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Background.html" title="Background"
+             >previous</a> |</li>
+        <li><a href="index.html">Laplacian Mesh Deformation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Arnaud Gelas.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
