@@ -177,7 +177,8 @@ latex_elements = {
 #'pointsize': '10pt',
 
 # Additional stuff for the LaTeX preamble.
-'preamble': '\\usepackage{amssymb}',
+'preamble': """\\usepackage{amssymb}
+\\usepackage{sphinxInsightJournal}""",
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -209,7 +210,7 @@ latex_documents = [
 
 # Additional files to copy to the build tree.
 latex_additional_files = ['sphinxInsightArticle.cls',
-                          'sphinx.sty']
+                          'sphinxInsightJournal.sty']
 
 
 # -- Options for manual page output --------------------------------------------
