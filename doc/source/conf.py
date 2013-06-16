@@ -177,14 +177,21 @@ latex_elements = {
 #'pointsize': '10pt',
 
 # Additional stuff for the LaTeX preamble.
-'preamble': '\\usepackage{amssymb}',
+'preamble': """\\usepackage{amssymb}
+\\usepackage{sphinxInsightJournal}
+\\newcommand{\IJhandlerIDnumber}{1234}
+""",
+
+# Place the table of contents under the abstract instead
+# directly in the document.
+'tableofcontents': ''
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'LaplacianMeshDeformation.tex', u'Laplacian Mesh Deformation Documentation',
-   u'Arnaud Gelas', 'manual'),
+   u'Arnaud Gelas', 'InsightArticle'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -205,7 +212,11 @@ latex_documents = [
 #latex_appendices = []
 
 # If false, no module index is generated.
-#latex_domain_indices = True
+latex_domain_indices = False
+
+# Additional files to copy to the build tree.
+latex_additional_files = ['sphinxInsightArticle.cls',
+                          'sphinxInsightJournal.sty']
 
 
 # -- Options for manual page output --------------------------------------------
