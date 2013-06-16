@@ -184,7 +184,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'LaplacianMeshDeformation.tex', u'Laplacian Mesh Deformation Documentation',
-   u'Arnaud Gelas', 'manual'),
+   u'Arnaud Gelas', 'InsightArticle'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -206,6 +206,10 @@ latex_documents = [
 
 # If false, no module index is generated.
 #latex_domain_indices = True
+
+# Additional files to copy to the build tree.
+latex_additional_files = ['sphinxInsightArticle.cls',
+                          'sphinx.sty']
 
 
 # -- Options for manual page output --------------------------------------------
