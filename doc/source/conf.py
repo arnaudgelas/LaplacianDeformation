@@ -178,7 +178,13 @@ latex_elements = {
 
 # Additional stuff for the LaTeX preamble.
 'preamble': """\\usepackage{amssymb}
-\\usepackage{sphinxInsightJournal}""",
+\\usepackage{sphinxInsightJournal}
+\\newcommand{\IJhandlerIDnumber}{1234}
+""",
+
+# Place the table of contents under the abstract instead
+# directly in the document.
+'tableofcontents': ''
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -206,7 +212,7 @@ latex_documents = [
 #latex_appendices = []
 
 # If false, no module index is generated.
-#latex_domain_indices = True
+latex_domain_indices = False
 
 # Additional files to copy to the build tree.
 latex_additional_files = ['sphinxInsightArticle.cls',

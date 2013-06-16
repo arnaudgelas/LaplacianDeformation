@@ -7,6 +7,12 @@
 Laplacian Mesh Deformation
 ==========================
 
+.. raw:: latex
+
+  \IJhandlefooter{\IJhandlerIDnumber}
+  \begin{abstract}
+  \noindent
+
 Deforming a 3D surface mesh while preserving its local detail is useful for
 editing anatomical atlases or for mesh based segmentation. This contribution
 introduces new classes for performing *hard* and *soft constraints* deformation
@@ -14,6 +20,12 @@ in a flexible design which allows user to switch easily in between Laplacian
 discretization operators, area weighing and solvers. The usage of these new
 classes is demonstrated on a sphere.
 
+.. raw:: latex
+
+  \end{abstract}
+  \IJhandlenote{\IJhandlerIDnumber}
+
+  \tableofcontents
 
 Contents
 ========
@@ -26,10 +38,4 @@ Contents
   Implementation.rst
   Demonstration.rst
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
