@@ -15,6 +15,5 @@ speed and ease of implementation. The main idea behind these approaches relies
 on the use of a representation that focus on local differential properties and
 on preserving these ones when deforming. These approaches remain quite
 intuitive and preserve local details throughout the deformation. In the rest of
-the paper, we will focus on Laplacian based representation. 
-
+the paper, we will focus on Laplacian based representation and will focus on methods as described in :cite:`BotschSorkine:2008`
 

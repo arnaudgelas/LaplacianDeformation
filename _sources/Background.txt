@@ -2,7 +2,7 @@ Background
 ==========
 
 Laplacian-based approaches represent the surface by the so-called differential
-coordinates or Laplacian coordinates [3], [59]. These coordinates are obtained
+coordinates or Laplacian coordinates :cite:`Alexa:2003`, :cite:`SorkineCohenToledo:2003`. These coordinates are obtained
 by applying the Laplacian operator to the mesh vertices:
 
 .. math::
