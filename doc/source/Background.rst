@@ -2,7 +2,7 @@ Background
 ==========
 
 Laplacian-based approaches represent the surface by the so-called differential
-coordinates or Laplacian coordinates [3], [59]. These coordinates are obtained
+coordinates or Laplacian coordinates :cite:`Alexa:2003`, :cite:`SorkineCohenToledo:2003`. These coordinates are obtained
 by applying the Laplacian operator to the mesh vertices:
 
 .. math::
@@ -161,3 +161,4 @@ in the typically used Laplacian discretization. Here we list few of them:
 * :math:`w_{i} = 1` and :math:`w_{ij} = \frac{1}{2} ( \cot \alpha_{ij} + \cot \beta_{ij} )`;
 * :math:`w_{i} = 1 / A_i` and :math:`w_{ij} = \frac{1}{2} ( \cot \alpha_{ij} + \cot \beta_{ij} )` (where :math:`A_i` is a local area corresponding for :math:`\boldsymbol{v}_i`)
 
+.. bibliography:: refs.bib
