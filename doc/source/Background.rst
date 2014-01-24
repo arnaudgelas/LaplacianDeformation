@@ -161,4 +161,3 @@ in the typically used Laplacian discretization. Here we list few of them:
 * :math:`w_{i} = 1` and :math:`w_{ij} = \frac{1}{2} ( \cot \alpha_{ij} + \cot \beta_{ij} )`;
 * :math:`w_{i} = 1 / A_i` and :math:`w_{ij} = \frac{1}{2} ( \cot \alpha_{ij} + \cot \beta_{ij} )` (where :math:`A_i` is a local area corresponding for :math:`\boldsymbol{v}_i`)
 
-.. bibliography:: refs.bib
