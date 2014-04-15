@@ -25,6 +25,10 @@ namespace itk
 /**
  *  \class LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints
  *
+ *  \brief Laplacian deformation with soft constraints (approximating
+ *  displacement for handle points).
+ *
+ *  see http://hdl.handle.net/10380/3410
  */
 template< class TInputMesh, class TOutputMesh, class TSolverTraits >
 class ITK_EXPORT LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints:

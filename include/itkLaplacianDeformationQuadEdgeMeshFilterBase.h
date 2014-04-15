@@ -25,7 +25,10 @@ namespace itk
 {
 /**
  *  \class LaplacianDeformationQuadEdgeMeshFilterBase
+ *
  *  \brief Base class for laplacian surface mesh deformation
+ *
+ *  see http://hdl.handle.net/10380/3410
  */
 template< class TInputMesh, class TOutputMesh, class TSolverTraits >
 class ITK_EXPORT LaplacianDeformationQuadEdgeMeshFilterBase:
