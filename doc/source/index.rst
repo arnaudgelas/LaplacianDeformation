@@ -37,5 +37,5 @@ Contents
   Background.rst
   Implementation.rst
   Demonstration.rst
-
+  References.rst
 

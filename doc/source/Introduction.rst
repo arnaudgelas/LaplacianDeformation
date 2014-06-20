@@ -17,4 +17,3 @@ on preserving these ones when deforming. These approaches remain quite
 intuitive and preserve local details throughout the deformation. In the rest of
 the paper, we will focus on Laplacian based representation and will focus on methods as described in :cite:`BotschSorkine:2008`
 
-.. bibliography:: refs.bib
