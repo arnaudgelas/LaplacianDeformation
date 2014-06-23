@@ -4,8 +4,10 @@ itk_module( LaplacianDeformation
   DEPENDS
     ITKQuadEdgeMesh
     ITKQuadEdgeMeshFiltering
- TEST_DEPENDS
+  TEST_DEPENDS
     ITKTestKernel
+    ITKQuadEdgeMeshFiltering
+    ITKQuadEdgeMesh
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION
     "${DOCUMENTATION}"

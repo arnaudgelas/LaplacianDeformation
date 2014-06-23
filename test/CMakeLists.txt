@@ -1,14 +1,11 @@
-include_directories( ${LaplacianDeformation_SOURCE_DIR}/include )
+itk_module_test()
 
-add_executable(HeaderTest HeaderTest.cxx)
-target_link_libraries(HeaderTest ${ITK_LIBRARIES})
+CreateTestDriver( LaplacianDeformation "${LaplacianDeformation-Test_LIBRARIES}" "${LaplacianDeformationTests}" )
 
-add_test( NAME HeaderTest
-          COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/HeaderTest
-)
+set( ITK_NO_IO_FACTORY_REGISTER_MANAGER "" )
 
 add_executable(softconstraints softconstraints.cxx)
-target_link_libraries(softconstraints ${ITK_LIBRARIES})
+target_link_libraries(softconstraints ${LaplacianDeformation_LIBRARIES})
 
 add_test( NAME SoftConstraintsTest
           COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/softconstraints
@@ -17,7 +14,7 @@ add_test( NAME SoftConstraintsTest
 )
 
 add_executable(hardconstraints hardconstraints.cxx)
-target_link_libraries(hardconstraints ${ITK_LIBRARIES})
+target_link_libraries(hardconstraints ${LaplacianDeformation_LIBRARIES})
 
 add_test( NAME HardConstraintsTest
           COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/hardconstraints
